@@ -2,7 +2,7 @@
 
 const { Command } = require('commander');
 const chalk = require('chalk');
-const { syncFile, syncDocs, syncBlog } = require('../lib/commands/sync');
+const { syncFile, syncDocs, syncBlog, syncReverse } = require('../lib/commands/sync');
 const { initProject } = require('../lib/commands/init');
 
 const program = new Command();
@@ -22,9 +22,13 @@ program
   .option('--docs', 'sync all documents in docs/ directory')
   .option('--blog', 'sync all blog posts in blog/ directory')
   .option('--dry-run', 'preview changes without syncing')
+  .option('--reverse', 'sync from Confluence back to Docusaurus (only changed pages)')
   .action(async (options) => {
     try {
-      if (options.file) {
+      if (options.reverse) {
+        console.log(chalk.blue('🔄 Reverse syncing from Confluence to Docusaurus'));
+        await syncReverse(options.dryRun);
+      } else if (options.file) {
         console.log(chalk.blue('🚀 Syncing single file:', options.file));
         await syncFile(options.file, options.dryRun);
       } else if (options.docs) {
@@ -34,11 +38,12 @@ program
         console.log(chalk.blue('🚀 Syncing all blog/'));
         await syncBlog(options.dryRun);
       } else {
-        console.log(chalk.red('❌ Please specify --file, --docs, or --blog option'));
+        console.log(chalk.red('❌ Please specify --file, --docs, --blog, or --reverse option'));
         console.log('Examples:');
         console.log('  docflu sync --file docs/intro.md');
         console.log('  docflu sync --docs');
         console.log('  docflu sync --blog');
+        console.log('  docflu sync --reverse');
         process.exit(1);
       }
     } catch (error) {

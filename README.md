@@ -11,7 +11,7 @@ docflu CLI automatically syncs your Docusaurus markdown documentation to Conflue
 
 ## ✨ Features
 
-- **One-way sync** Docusaurus → Confluence
+- **Two-way sync** between Docusaurus and Confluence
 - **Hierarchy preservation** - maintains folder structure
 - **Internal link processing** - converts relative links to Confluence URLs
 - **Image handling** - uploads and processes images automatically
@@ -53,6 +53,9 @@ docflu sync --docs --dry-run
 
 # Sync all documentation
 docflu sync --docs
+
+# Reverse sync from Confluence to Docusaurus
+docflu sync --reverse
 ```
 
 ## 📖 Usage
@@ -62,8 +65,9 @@ docflu sync --docs
 | Command | Description |
 |---------|-------------|
 | `docflu init` | Setup .env configuration |
-| `docflu sync --docs` | Sync all documentation |
-| `docflu sync --file <path>` | Sync specific file |
+| `docflu sync --docs` | Sync all documentation to Confluence |
+| `docflu sync --file <path>` | Sync specific file to Confluence |
+| `docflu sync --reverse` | Sync from Confluence to Docusaurus |
 | `docflu sync --dry-run` | Preview without changes |
 
 ### Configuration (.env)
@@ -97,6 +101,12 @@ Converts Docusaurus links to Confluence URLs:
 - `/docs/absolute-path` → Resolved absolute paths
 - `./file.md#section` → Anchor links preserved
 
+### Two-way Sync
+- **Docusaurus → Confluence**: Standard sync with hierarchy preservation
+- **Confluence → Docusaurus**: Reverse sync that only updates files changed in Confluence
+- **Frontmatter Preservation**: Keeps Docusaurus metadata intact
+- **Format Consistency**: Maintains markdown formatting standards
+
 ### Image & Mermaid Support
 - **Local images**: Uploaded as Confluence attachments
 - **Mermaid diagrams**: Converted to SVG images
@@ -106,6 +116,7 @@ Converts Docusaurus links to Confluence URLs:
 Tracks sync status in `.docusaurus/sync-state.json`:
 - Incremental sync (only changed files)
 - Page ID tracking
+- Version tracking for two-way sync
 - Statistics and history
 
 ## 🧪 Testing
@@ -133,6 +144,7 @@ docflu/
 │   └── core/                   # Core modules
 │       ├── confluence-client.js
 │       ├── markdown-parser.js
+│       ├── html-to-markdown-parser.js
 │       ├── docusaurus-scanner.js
 │       └── state-manager.js
 └── test/                       # Test files
@@ -169,8 +181,9 @@ DEBUG=1 docflu sync --docs
 
 ## 📈 Status
 
-### ✅ Completed (22/22 features)
+### ✅ Completed (23/23 features)
 - Single & multi-file sync
+- Two-way sync (Confluence to Docusaurus)
 - Hierarchy support
 - Internal reference processing
 - Image & Mermaid handling
@@ -181,7 +194,6 @@ DEBUG=1 docflu sync --docs
 - Blog post sync
 - Advanced Docusaurus syntax
 - Global npm installation
-- Bi-directional sync
 
 ## 📄 License
 

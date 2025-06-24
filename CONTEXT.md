@@ -263,6 +263,22 @@ node bin/docflu.js sync --file docs/test-internal-links.md
 - **Content Conversion**: Test before/after markdown transformation
 - **Statistics**: Verify processing stats (processed, failed counts)
 
+### 16. `/lib/core/html-to-markdown-parser.js` - HTML to Markdown Parser ✅ NEW
+- **Confluence Conversion**: Convert Confluence Storage Format back to Markdown
+- **Turndown Integration**: Uses Turndown library for HTML to Markdown conversion
+- **Custom Rules**: Special handling for Confluence macros, tables, code blocks
+- **Image Processing**: Downloads and saves Confluence attachments as local images
+- **Frontmatter Preservation**: Maintains original Docusaurus frontmatter
+- **Format Consistency**: Ensures consistent markdown output
+
+### 17. Two-Way Sync Support ✅ NEW
+- **Reverse Sync**: Added `--reverse` option to sync from Confluence to Docusaurus
+- **Version Tracking**: Track Confluence page versions to detect changes
+- **Incremental Updates**: Only update files changed in Confluence
+- **Content Preservation**: Maintain frontmatter and formatting during reverse sync
+- **Image Download**: Automatically download Confluence attachments to local files
+- **Command Integration**: Seamless integration with existing CLI commands
+
 ## 🎯 Latest Achievements (Phase 2+)
 
 ### State Directory Migration ✅ NEW
@@ -447,3 +463,29 @@ node bin/docflu.js sync --docs  # Second run: 8 skipped (no changes)
 - **🖼️ Image processing**: Upload local images + convert format ✅
 
 **🚧 FUTURE**: Multi-file sync, hierarchy, state management
+
+## 📁 Files Updated
+
+### 1. `/bin/docflu.js` - CLI Entry Point
+- Added `--reverse` option for two-way sync
+- Updated help text and examples
+
+### 2. `/lib/commands/sync.js` - Sync Command Logic
+- Added `syncReverse()` function for Confluence to Docusaurus sync
+- Enhanced version tracking in `syncFile()` function
+- Added state management for tracking page versions
+
+### 3. `/lib/core/confluence-client.js` - Confluence API Client
+- Added `getPageHistory()` method to check for updates
+- Enhanced version handling in page operations
+- Improved error handling and reporting
+
+### 4. `/lib/core/state-manager.js` - State Manager
+- Added version tracking for Confluence pages
+- Enhanced state management for two-way sync
+- Added methods to compare and track versions
+
+### 5. `/README.md` - Documentation
+- Updated feature list to include two-way sync
+- Added examples for reverse sync
+- Updated command documentation
